@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Consentimiento Informado — Tacto Rectal | Dr. Mauricio Plata</title>
+<style>
+  :root {
+    --navy: #1B3A6B;
+    --teal: #1A6B5E;
+    --red: #8B0000;
+    --blue-light: #D6E4F0;
+    --green-light: #EAF7F4;
+    --red-light: #FFF5F5;
+    --gray: #555555;
+    --gray-light: #F5F5F5;
+    --border: #CCCCCC;
+    --text: #1A1A1A;
+    --font: 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: var(--font);
+    font-size: 16px;
+    color: var(--text);
+    background: #EFEFEF;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* ── HEADER ─────────────────────────────────────────────────────────────── */
+  .top-bar {
+    background: var(--navy);
+    color: white;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  }
+  .top-bar h1 { font-size: 17px; font-weight: 600; letter-spacing: 0.01em; }
+  .top-bar .sub { font-size: 12px; opacity: 0.75; margin-top: 2px; }
+  .logo-box { text-align: right; }
+  .logo-box .dr { font-size: 15px; font-weight: 700; }
+  .logo-box .esp { font-size: 11px; opacity: 0.7; }
+
+  /* ── STEPPER ─────────────────────────────────────────────────────────────── */
+  .stepper {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    padding: 12px 16px;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    min-width: 60px;
+    flex: 1;
+    cursor: pointer;
+  }
+  .step-dot {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600; color: var(--gray);
+    transition: all 0.2s;
+  }
+  .step-item.active .step-dot { background: var(--navy); border-color: var(--navy); color: white; }
+  .step-item.done .step-dot { background: var(--teal); border-color: var(--teal); color: white; }
+  .step-label { font-size: 10px; color: var(--gray); text-align: center; line-height: 1.2; }
+  .step-item.active .step-label { color: var(--navy); font-weight: 600; }
+
+  /* ── CONTENIDO PRINCIPAL ─────────────────────────────────────────────────── */
+  .content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 16px 100px;
+  }
+
+  .panel {
+    background: white;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .panel-header {
+    background: var(--navy);
+    color: white;
+    padding: 12px 18px;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .panel-header.teal { background: var(--teal); }
+  .panel-header.red  { background: var(--red); }
+  .panel-header svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+  .panel-body { padding: 18px; }
+
+  /* ── FORMULARIO ──────────────────────────────────────────────────────────── */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-grid.cols3 { grid-template-columns: 1fr 1fr 1fr; }
+  .form-group { display: flex; flex-direction: column; gap: 5px; }
+  .form-group.full { grid-column: 1 / -1; }
+  label { font-size: 13px; font-weight: 600; color: var(--navy); }
+  input[type=text], input[type=date], input[type=tel], select, textarea {
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 15px;
+    font-family: var(--font);
+    color: var(--text);
+    background: white;
+    width: 100%;
+    -webkit-appearance: none;
+    transition: border-color 0.15s;
+  }
+  input[type=text]:focus, input[type=date]:focus, input[type=tel]:focus, select:focus, textarea:focus {
+    border-color: var(--navy);
+    outline: none;
+  }
+  input.error, select.error { border-color: var(--red) !important; }
+  .field-error { font-size: 12px; color: var(--red); margin-top: 2px; display: none; }
+
+  /* ── INFORMACIÓN CLÍNICA ─────────────────────────────────────────────────── */
+  .info-text {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text);
+    text-align: justify;
+    margin-bottom: 14px;
+  }
+  .info-text:last-child { margin-bottom: 0; }
+
+  .risk-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .risk-card { border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+  .risk-card-head {
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: white;
+    text-align: center;
+  }
+  .risk-card-head.freq  { background: var(--teal); }
+  .risk-card-head.mid   { background: var(--navy); }
+  .risk-card-head.rare  { background: var(--red); }
+  .risk-card ul { padding: 10px 12px 10px 22px; }
+  .risk-card li { font-size: 13px; line-height: 1.5; margin-bottom: 5px; color: var(--text); }
+
+  .warning-box {
+    border-left: 5px solid var(--red);
+    background: var(--red-light);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 14px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #5A0000;
+    margin: 14px 0;
+  }
+  .info-box {
+    border-left: 5px solid var(--navy);
+    background: var(--blue-light);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 14px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #0D2044;
+    margin: 14px 0;
+  }
+
+  .bullet-list { padding-left: 20px; margin: 10px 0; }
+  .bullet-list li { font-size: 15px; line-height: 1.65; margin-bottom: 6px; color: var(--text); }
+
+  /* ── CHECKBOXES ──────────────────────────────────────────────────────────── */
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .check-item:active { background: var(--blue-light); }
+  .check-item input[type=checkbox] {
+    width: 22px; height: 22px;
+    margin-top: 1px;
+    cursor: pointer;
+    accent-color: var(--navy);
+    flex-shrink: 0;
+  }
+  .check-item span { font-size: 14px; line-height: 1.55; color: var(--text); }
+  .check-item.checked { background: #EEF4FF; border-color: var(--navy); }
+
+  /* ── DECISIÓN ────────────────────────────────────────────────────────────── */
+  .decision-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .decision-btn {
+    border: 3px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 14px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: white;
+  }
+  .decision-btn .icon { font-size: 28px; margin-bottom: 8px; }
+  .decision-btn .dtitle { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+  .decision-btn .ddesc { font-size: 13px; color: var(--gray); line-height: 1.4; }
+  .decision-btn.selected-yes { border-color: var(--teal); background: var(--green-light); }
+  .decision-btn.selected-yes .dtitle { color: var(--teal); }
+  .decision-btn.selected-no  { border-color: var(--red); background: var(--red-light); }
+  .decision-btn.selected-no .dtitle  { color: var(--red); }
+  .decision-btn:not(.selected-yes):not(.selected-no):hover { border-color: var(--navy); }
+
+  /* ── CANVAS FIRMA ────────────────────────────────────────────────────────── */
+  .sig-wrapper {
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    background: #FAFAFA;
+    position: relative;
+    overflow: hidden;
+  }
+  .sig-wrapper.has-sig { border-color: var(--teal); border-style: solid; background: white; }
+  .sig-wrapper.error-sig { border-color: var(--red); }
+  canvas {
+    display: block;
+    width: 100%;
+    height: 180px;
+    cursor: crosshair;
+    touch-action: none;
+  }
+  .sig-placeholder {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: #BBBBBB;
+    font-size: 14px;
+    pointer-events: none;
+    text-align: center;
+  }
+  .sig-clear {
+    position: absolute;
+    top: 8px; right: 8px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 4px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--gray);
+    display: none;
+  }
+  .sig-wrapper.has-sig .sig-clear { display: block; }
+  .sig-wrapper.has-sig .sig-placeholder { display: none; }
+
+  /* ── DATA TABLE ──────────────────────────────────────────────────────────── */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .data-table td { padding: 8px 10px; border: 1px solid var(--border); vertical-align: top; }
+  .data-table .label-cell { background: var(--blue-light); font-weight: 600; color: var(--navy); width: 35%; }
+
+  /* ── DATOS USO ACADEMICO ─────────────────────────────────────────────────── */
+  .radio-row { display: flex; gap: 16px; }
+  .radio-opt {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    cursor: pointer;
+    flex: 1;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.15s;
+  }
+  .radio-opt input[type=radio] { accent-color: var(--navy); width: 18px; height: 18px; }
+  .radio-opt.sel-si  { border-color: var(--teal); background: var(--green-light); color: var(--teal); }
+  .radio-opt.sel-no  { border-color: var(--red);  background: var(--red-light);  color: var(--red); }
+
+  /* ── NAV BOTTOM ──────────────────────────────────────────────────────────── */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: white;
+    border-top: 1px solid var(--border);
+    padding: 12px 20px;
+    display: flex;
+    gap: 12px;
+    z-index: 100;
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.1);
+  }
+  .btn {
+    flex: 1;
+    padding: 13px 20px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: var(--font);
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn:active { transform: scale(0.98); opacity: 0.85; }
+  .btn-primary { background: var(--navy); color: white; }
+  .btn-secondary { background: var(--gray-light); color: var(--text); }
+  .btn-success { background: var(--teal); color: white; }
+  .btn-danger { background: var(--red); color: white; }
+
+  /* ── CONFIRMACIÓN FINAL ──────────────────────────────────────────────────── */
+  .confirm-box {
+    border: 2px solid;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 16px;
+    font-size: 15px;
+    line-height: 1.7;
+    text-align: justify;
+  }
+  .confirm-box.yes { border-color: var(--teal); background: var(--green-light); }
+  .confirm-box.no  { border-color: var(--red);  background: var(--red-light); }
+
+  /* ── RESUMEN PDF ─────────────────────────────────────────────────────────── */
+  .summary-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 12px; }
+  .summary-title { background: var(--gray-light); padding: 8px 14px; font-size: 13px; font-weight: 700; color: var(--navy); border-bottom: 1px solid var(--border); }
+  .summary-body { padding: 10px 14px; }
+  .summary-row { display: flex; gap: 8px; font-size: 13px; padding: 3px 0; }
+  .summary-row .sk { color: var(--gray); min-width: 140px; }
+  .summary-row .sv { font-weight: 500; color: var(--text); }
+
+  /* ── COMPLETADO ──────────────────────────────────────────────────────────── */
+  .done-screen { text-align: center; padding: 32px 20px; }
+  .done-icon { font-size: 64px; margin-bottom: 16px; }
+  .done-title { font-size: 22px; font-weight: 700; color: var(--teal); margin-bottom: 8px; }
+  .done-sub { font-size: 15px; color: var(--gray); margin-bottom: 24px; line-height: 1.5; }
+
+  /* ── LEGAL BADGE ─────────────────────────────────────────────────────────── */
+  .legal-tag {
+    display: inline-block;
+    background: var(--blue-light);
+    color: var(--navy);
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 7px;
+    margin: 2px;
+  }
+
+  /* ── RESPONSIVE ──────────────────────────────────────────────────────────── */
+  @media (max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .form-grid.cols3 { grid-template-columns: 1fr 1fr; }
+    .risk-grid { grid-template-columns: 1fr; }
+    .decision-grid { grid-template-columns: 1fr; }
+    .radio-row { flex-direction: column; }
+  }
+
+  /* ── PRINT ───────────────────────────────────────────────────────────────── */
+  @media print {
+    body { background: white; font-size: 12px; }
+    .bottom-nav, .stepper, .top-bar { display: none !important; }
+    .content { padding: 10px; max-width: 100%; }
+    .panel { break-inside: avoid; }
+    canvas { border: 1px solid #ccc; }
+    .btn { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div>
+    <div class="h1" style="font-size:17px;font-weight:700;color:white">Consentimiento Informado</div>
+    <div class="sub">Tacto Rectal Diagnóstico · Urología</div>
+  </div>
+  <div class="logo-box">
+    <div class="dr">Dr. Mauricio Plata</div>
+    <div class="esp">Médico Urólogo · Bogotá D.C.</div>
+  </div>
+</div>
+
+<div class="stepper" id="stepper">
+  <div class="step-item active" onclick="goTo(0)">
+    <div class="step-dot">1</div>
+    <div class="step-label">Datos</div>
+  </div>
+  <div class="step-item" onclick="goTo(1)">
+    <div class="step-dot">2</div>
+    <div class="step-label">Información</div>
+  </div>
+  <div class="step-item" onclick="goTo(2)">
+    <div class="step-dot">3</div>
+    <div class="step-label">Riesgos</div>
+  </div>
+  <div class="step-item" onclick="goTo(3)">
+    <div class="step-dot">4</div>
+    <div class="step-label">Comprensión</div>
+  </div>
+  <div class="step-item" onclick="goTo(4)">
+    <div class="step-dot">5</div>
+    <div class="step-label">Decisión</div>
+  </div>
+  <div class="step-item" onclick="goTo(5)">
+    <div class="step-dot">6</div>
+    <div class="step-label">Firmas</div>
+  </div>
+  <div class="step-item" onclick="goTo(6)">
+    <div class="step-dot">7</div>
+    <div class="step-label">Resumen</div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       PASO 0 — DATOS DEL PACIENTE
+  ══════════════════════════════════════════════════════════════════════════ -->
+  <div id="page-0">
+    <div style="margin-bottom:12px">
+      <span class="legal-tag">Ley 23/1981</span>
+      <span class="legal-tag">Ley 1751/2015</span>
+      <span class="legal-tag">Res. 13437/1991</span>
+      <span class="legal-tag">Ley 1581/2012</span>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        Identificación del Paciente
+      </div>
+      <div class="panel-body">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="nombres">Primer nombre *</label>
+            <input type="text" id="nombres" placeholder="Nombre(s)" autocomplete="off">
+            <span class="field-error" id="err-nombres">Campo requerido</span>
+          </div>
+          <div class="form-group">
+            <label for="apellidos">Apellidos *</label>
+            <input type="text" id="apellidos" placeholder="Apellidos" autocomplete="off">
+            <span class="field-error" id="err-apellidos">Campo requerido</span>
+          </div>
+          <div class="form-group">
+            <label for="tipo-id">Tipo de documento *</label>
+            <select id="tipo-id">
+              <option value="">Seleccione...</option>
+              <option value="CC">Cédula de Ciudadanía</option>
+              <option value="CE">Cédula de Extranjería</option>
+              <option value="PA">Pasaporte</option>
+              <option value="RC">Registro Civil</option>
+              <option value="TI">Tarjeta de Identidad</option>
+            </select>
+            <span class="field-error" id="err-tipo-id">Campo requerido</span>
+          </div>
+          <div class="form-group">
+            <label for="num-id">Número de documento *</label>
+            <input type="text" id="num-id" placeholder="Número" autocomplete="off">
+            <span class="field-error" id="err-num-id">Campo requerido</span>
+          </div>
+          <div class="form-group">
+            <label for="fecha-nac">Fecha de nacimiento *</label>
+            <input type="date" id="fecha-nac">
+            <span class="field-error" id="err-fecha-nac">Campo requerido</span>
+          </div>
+          <div class="form-group">
+            <label for="edad">Edad</label>
+            <input type="text" id="edad" placeholder="Calculada automáticamente" readonly style="background:#f9f9f9">
+          </div>
+          <div class="form-group">
+            <label for="eps">EPS / Aseguradora *</label>
+            <input type="text" id="eps" placeholder="Nombre de la EPS" autocomplete="off">
+            <span class="field-error" id="err-eps">Campo requerido</span>
+          </div>
+          <div class="form-group">
+            <label for="telefono">Celular / Teléfono</label>
+            <input type="tel" id="telefono" placeholder="Ej. 3001234567">
+          </div>
+          <div class="form-group full">
+            <label for="direccion">Dirección de residencia</label>
+            <input type="text" id="direccion" placeholder="Dirección" autocomplete="off">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header teal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>
+        Datos de la Consulta
+      </div>
+      <div class="panel-body">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Médico tratante</label>
+            <input type="text" value="Dr. Mauricio Plata — Médico Urólogo" readonly style="background:#f9f9f9;color:var(--navy);font-weight:600">
+          </div>
+          <div class="form-group">
+            <label for="fecha-consulta">Fecha de la consulta *</label>
+            <input type="date" id="fecha-consulta">
+            <span class="field-error" id="err-fecha-consulta">Campo requerido</span>
+          </div>
+          <div class="form-group full">
+            <label for="indicacion">Indicación clínica principal</label>
+            <select id="indicacion">
+              <option value="">Seleccione la indicación...</option>
+              <option value="Tamizaje cáncer de próstata (PSA + TR)">Tamizaje cáncer de próstata (PSA + TR)</option>
+              <option value="Síntomas del tracto urinario inferior (STUI/HBP)">Síntomas del tracto urinario inferior (STUI/HBP)</option>
+              <option value="Seguimiento patología prostática conocida">Seguimiento patología prostática conocida</option>
+              <option value="Sospecha de prostatitis">Sospecha de prostatitis</option>
+              <option value="Vigilancia activa — cáncer de próstata">Vigilancia activa — cáncer de próstata</option>
+              <option value="Evaluación de masa anorrectal">Evaluación de masa anorrectal</option>
+              <option value="Otra indicación">Otra indicación</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       PASO 1 — INFORMACIÓN DEL PROCEDIMIENTO
+  ══════════════════════════════════════════════════════════════════════════ -->
+  <div id="page-1" style="display:none">
+    <div class="panel">
+      <div class="panel-header">¿Qué es el tacto rectal?</div>
+      <div class="panel-body">
+        <p class="info-text">El <strong>tacto rectal (TR)</strong> es un examen físico de bajo riesgo realizado por el médico urólogo durante la consulta ambulatoria. Consiste en la introducción suave de un dedo enguantado y lubricado en el recto del paciente, para palpar la cara posterior de la próstata y las paredes del recto adyacentes.</p>
+        <p class="info-text">El procedimiento se realiza con el paciente en posición lateral (decúbito lateral izquierdo, rodillas flexionadas) o en posición genupectoral, según criterio médico. El médico usa guantes estériles de un solo uso y gel lubricante. La duración es de aproximadamente <strong>30 a 60 segundos</strong>.</p>
+        <div class="info-box">El paciente podrá solicitar la presencia de un acompañante o profesional de salud como testigo durante el procedimiento en cualquier momento.</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header teal">¿Para qué se realiza?</div>
+      <div class="panel-body">
+        <ul class="bullet-list">
+          <li>Evaluación del volumen, consistencia, simetría y presencia de nódulos de la glándula prostática.</li>
+          <li>Tamizaje o seguimiento del cáncer de próstata en combinación con el PSA (Antígeno Prostático Específico).</li>
+          <li>Evaluación de síntomas del tracto urinario inferior (STUI): chorro débil, urgencia, nicturia, retención.</li>
+          <li>Sospecha clínica de prostatitis aguda o crónica.</li>
+          <li>Seguimiento de pacientes en vigilancia activa o en tratamiento por patología prostática conocida.</li>
+          <li>Evaluación de masas anorrectales o síntomas rectales con correlación urológica.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header" style="background:var(--gray)">Alternativas disponibles</div>
+      <div class="panel-body">
+        <ul class="bullet-list">
+          <li><strong>Ecografía transrectal (ETRUS):</strong> mayor sensibilidad morfológica, más invasiva y costosa.</li>
+          <li><strong>PSA sérico aislado:</strong> marcador útil pero de baja especificidad sin TR.</li>
+          <li><strong>Resonancia magnética multiparamétrica (mpMRI):</strong> alta precisión, disponibilidad limitada, mayor costo.</li>
+          <li><strong>No realizar ningún procedimiento:</strong> el paciente puede declinar. El médico informará las implicaciones clínicas de esta decisión.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       PASO 2 — RIESGOS
+  ══════════════════════════════════════════════════════════════════════════ -->
+  <div id="page-2" style="display:none">
+    <div class="panel">
+      <div class="panel-header red">Riesgos, Molestias y Complicaciones</div>
+      <div class="panel-body">
+        <p class="info-text">El tacto rectal es un procedimiento de <strong>bajo riesgo</strong>. Sin embargo, el médico tiene el deber de informar al paciente sobre los posibles efectos adversos:</p>
+        <div class="risk-grid" style="margin:16px 0">
+          <div class="risk-card">
+            <div class="risk-card-head freq">FRECUENTES / ESPERADOS</div>
+            <ul>
+              <li>Molestia o presión anal transitoria durante la exploración</li>
+              <li>Sensación de urgencia defecatoria momentánea</li>
+              <li>Leve manchado en pacientes con hemorroides previas</li>
+              <li>Elevación transitoria del PSA (hasta 0,3–0,5 ng/mL): idealmente tome el PSA antes del TR o espere 24 h</li>
+            </ul>
+          </div>
+          <div class="risk-card">
+            <div class="risk-card-head mid">POCO FRECUENTES</div>
+            <ul>
+              <li>Dolor anal en pacientes con patología anorrectal previa (fisura, absceso)</li>
+              <li>Vasovagal (lipotimia) por ansiedad intensa</li>
+              <li>Exacerbación transitoria de síntomas en prostatitis aguda</li>
+            </ul>
+          </div>
+          <div class="risk-card">
+            <div class="risk-card-head rare">EXCEPCIONALES / RAROS</div>
+            <ul>
+              <li>Lesión mucosa rectal (extremadamente infrecuente)</li>
+              <li>Bacteriemia transitoria en pacientes inmunocomprometidos (casuística excepcional)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="warning-box">
+          <strong>⚠ CONTRAINDICACIONES RELATIVAS:</strong> El TR está contraindicado de forma relativa en prostatitis aguda severa y en patología anorrectal aguda con dolor intenso. En estos casos el médico diferirá el procedimiento según criterio clínico.
+        </div>
+        <p class="info-text" style="margin-top:12px">Informe a su médico si padece: hemorroides, fisuras anales, abscesos perianales, cirugía rectal previa, enfermedad inflamatoria intestinal, coagulopatía o anticoagulación activa.</p>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header teal">Beneficios Esperados</div>
+      <div class="panel-body">
+        <ul class="bullet-list">
+          <li>Detección precoz de nódulos o induración prostática sugestivos de malignidad, incluso con PSA normal.</li>
+          <li>Estadificación clínica local del cáncer de próstata (T2/T3).</li>
+          <li>Orientación diagnóstica en prostatitis e HBP con estimación de volumen prostático.</li>
+          <li>Toma de decisiones terapéuticas más precisas al integrar TR con PSA, mpMRI y score IPSS.</li>
+          <li>Costo-efectividad demostrada como herramienta de tamizaje cuando se usa racionalmente.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       PASO 3 — COMPRENSIÓN Y CONFIRMACIÓN
+  ══════════════════════════════════════════════════════════════════════════ -->
+  <div id="page-3" style="display:none">
+    <div class="panel">
+      <div class="panel-header">Declaración de Comprensión</div>
+      <div class="panel-body">
+        <div class="info-box" style="margin-bottom:18px">Por favor marque cada casilla para confirmar que ha comprendido la información presentada. Si tiene dudas, consulte al médico antes de continuar.</div>
+
+        <label class="check-item" id="ci-1">
+          <input type="checkbox" id="ch1" onchange="updateCheck('ci-1',this)">
+          <span>He recibido información clara y comprensible sobre la <strong>naturaleza y objetivo</strong> del tacto rectal diagnóstico.</span>
+        </label>
+        <label class="check-item" id="ci-2">
+          <input type="checkbox" id="ch2" onchange="updateCheck('ci-2',this)">
+          <span>Entiendo <strong>cómo se realizará</strong> el procedimiento, incluyendo la posición, el uso de guantes y lubricante, y su duración aproximada.</span>
+        </label>
+        <label class="check-item" id="ci-3">
+          <input type="checkbox" id="ch3" onchange="updateCheck('ci-3',this)">
+          <span>Conozco las <strong>alternativas diagnósticas</strong> disponibles (ETRUS, PSA aislado, mpMRI) y sus ventajas y limitaciones.</span>
+        </label>
+        <label class="check-item" id="ci-4">
+          <input type="checkbox" id="ch4" onchange="updateCheck('ci-4',this)">
+          <span>He sido informado sobre los <strong>riesgos, molestias y posibles complicaciones</strong> del procedimiento.</span>
+        </label>
+        <label class="check-item" id="ci-5">
+          <input type="checkbox" id="ch5" onchange="updateCheck('ci-5',this)">
+          <span>Comprendo los <strong>beneficios clínicos</strong> esperados del procedimiento en mi caso particular.</span>
+        </label>
+        <label class="check-item" id="ci-6">
+          <input type="checkbox" id="ch6" onchange="updateCheck('ci-6',this)">
+          <span>Sé que tengo derecho a <strong>negarme o revocar</strong> este consentimiento en cualquier momento antes del procedimiento, sin consecuencias para mi atención médica.</span>
+        </label>
+        <label class="check-item" id="ci-7">
+          <input type="checkbox" id="ch7" onchange="updateCheck('ci-7',this)">
+          <span>Tuve la oportunidad de <strong>formular preguntas</strong> al médico y recibí respuestas satisfactorias a todas ellas.</span>
+        </label>
+        <label class="check-item" id="ci-8">
+          <input type="checkbox" id="ch8" onchange="updateCheck('ci-8',this)">
+          <span>Entiendo que mis datos de salud son <strong>confidenciales</strong> y están protegidos por la Ley 1581 de 2012 y el secreto profesional médico (Ley 23 de 1981).</span>
+        </label>
+
+        <div style="margin-top:18px">
+          <p style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:10px">Uso de datos con fines académicos o de investigación (anonimizados):</p>
+          <div class="radio-row">
+            <label class="radio-opt" id="ro-si" onclick="setAcad('si')">
+              <input type="radio" name="academico" value="si" id="rad-si"> Autorizo el uso anonimizado
+            </label>
+            <label class="radio-opt" id="ro-no" onclick="setAcad('no')">
+              <input type="radio" name="academico" value="no" id="rad-no"> No autorizo
+            </label>
+          </div>
+        </div>
+
+        <div id="check-warning" style="display:none;margin-top:14px" class="warning-box">
+          Por favor confirme todos los puntos anteriores antes de continuar.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       PASO 4 — DECISIÓN
+  ══════════════════════════════════════════════════════════════════════════ -->
+  <div id="page-4" style="display:none">
+    <div class="panel">
+      <div class="panel-header">Decisión del Paciente</div>
+      <div class="panel-body">
+        <p class="info-text" style="margin-bottom:18px">Habiendo recibido información completa sobre el tacto rectal diagnóstico, por favor indique su decisión:</p>
+        <div class="decision-grid">
+          <div class="decision-btn" id="btn-yes" onclick="setDecision('si')">
+            <div class="icon">✅</div>
+            <div class="dtitle">OTORGO MI CONSENTIMIENTO</div>
+            <div class="ddesc">Acepto libremente la realización del tacto rectal diagnóstico por parte del Dr. Mauricio Plata, habiendo comprendido la información suministrada.</div>
+          </div>
+          <div class="decision-btn" id="btn-no" onclick="setDecision('no')">
+            <div class="icon">❌</div>
+            <div class="dtitle">NIEGO MI CONSENTIMIENTO</div>
+            <div class="ddesc">Declino voluntariamente el procedimiento. He sido informado de las implicaciones clínicas de esta decisión, que no afectará mi atención médica en otros aspectos.</div>
+          </div>
+        </div>
+        <div id="decision-warning" style="display:none;margin-top:16px" class="warning-box">
+          Por favor seleccione una de las opciones para continuar.
+        </div>
+        <div id="no-reason-box" style="display:none;margin-top:16px">
+          <div class="form-group">
+            <label for="motivo-negativa">Motivo de la negativa (opcional)</label>
+            <textarea id="motivo-negativa" rows="3" placeholder="Puede indicar el motivo de su decisión si lo desea..." style="resize:none;font-family:var(--font);border:1.5px solid var(--border);border-radius:6px;padding:10px;font-size:14px;width:100%"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       PASO 5 — FIRMAS
+  ══════════════════════════════════════════════════════════════════════════ -->
+  <div id="page-5" style="display:none">
+
+    <div class="panel">
+      <div class="panel-header">Firma del Paciente</div>
+      <div class="panel-body">
+        <p class="info-text" style="margin-bottom:14px">Firme en el recuadro a continuación usando su dedo o el lápiz digital de la tablet:</p>
+        <div class="sig-wrapper" id="sig-paciente-wrap">
+          <canvas id="sig-paciente" height="360"></canvas>
+          <div class="sig-placeholder">✍ Firme aquí</div>
+          <button class="sig-clear" onclick="clearSig('paciente')">✕ Borrar</button>
+        </div>
+        <span class="field-error" id="err-sig-paciente" style="display:none;margin-top:6px">La firma es requerida</span>
+
+        <div style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap">
+          <div class="form-group" style="flex:1;min-width:200px">
+            <label>Nombre completo</label>
+            <input type="text" id="sig-nombre" placeholder="Se completará automáticamente" readonly style="background:#f9f9f9">
+          </div>
+          <div class="form-group" style="flex:1;min-width:140px">
+            <label>Fecha y hora</label>
+            <input type="text" id="sig-fecha" readonly style="background:#f9f9f9">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header" style="background:var(--gray)">Firma del Testigo / Acompañante (opcional)</div>
+      <div class="panel-body">
+        <p style="font-size:14px;color:var(--gray);margin-bottom:12px">El paciente puede solicitar la presencia de un testigo. Si aplica, diligencie esta sección:</p>
+        <div class="form-grid" style="margin-bottom:14px">
+          <div class="form-group">
+            <label>Nombre del testigo</label>
+            <input type="text" id="testigo-nombre" placeholder="Nombre completo" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label>C.C. del testigo</label>
+            <input type="text" id="testigo-cc" placeholder="Número de cédula" autocomplete="off">
+          </div>
+        </div>
+        <div class="sig-wrapper" id="sig-testigo-wrap">
+          <canvas id="sig-testigo" height="300"></canvas>
+          <div class="sig-placeholder">✍ Firma del testigo (opcional)</div>
+          <button class="sig-clear" onclick="clearSig('testigo')">✕ Borrar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" id="rep-legal-panel">
+      <div class="panel-header" style="background:var(--gray)">Representante Legal o Acudiente (si aplica)</div>
+      <div class="panel-body">
+        <p style="font-size:14px;color:var(--gray);margin-bottom:12px">Complete esta sección si el paciente es menor de edad o no puede otorgar consentimiento autónomo (Código Civil art. 1502 y jurisprudencia constitucional):</p>
+        <div class="form-grid" style="margin-bottom:14px">
+          <div class="form-group">
+            <label>Nombre del representante</label>
+            <input type="text" id="rep-nombre" placeholder="Nombre completo" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label>C.C. del representante</label>
+            <input type="text" id="rep-cc" placeholder="Número de cédula" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label>Relación con el paciente</label>
+            <select id="rep-relacion">
+              <option value="">Seleccione...</option>
+              <option>Padre / Madre</option>
+              <option>Cónyuge / Compañero permanente</option>
+              <option>Hijo/a mayor de edad</option>
+              <option>Tutor legal</option>
+              <option>Otro familiar</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Teléfono del representante</label>
+            <input type="tel" id="rep-tel" placeholder="Celular" autocomplete="off">
+          </div>
+        </div>
+        <div class="sig-wrapper" id="sig-rep-wrap">
+          <canvas id="sig-rep" height="300"></canvas>
+          <div class="sig-placeholder">✍ Firma del representante legal (opcional)</div>
+          <button class="sig-clear" onclick="clearSig('rep')">✕ Borrar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header teal">Firma del Médico Tratante</div>
+      <div class="panel-body">
+        <div class="form-grid" style="margin-bottom:14px">
+          <div class="form-group">
+            <label>Médico</label>
+            <input type="text" value="Dr. Mauricio Plata" readonly style="background:#f9f9f9;font-weight:600">
+          </div>
+          <div class="form-group">
+            <label for="tp-med">TP-MED</label>
+            <input type="text" id="tp-med" placeholder="N.° tarjeta profesional">
+          </div>
+        </div>
+        <div class="sig-wrapper" id="sig-medico-wrap">
+          <canvas id="sig-medico" height="300"></canvas>
+          <div class="sig-placeholder">✍ Firma del médico</div>
+          <button class="sig-clear" onclick="clearSig('medico')">✕ Borrar</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       PASO 6 — RESUMEN Y FINALIZACIÓN
+  ══════════════════════════════════════════════════════════════════════════ -->
+  <div id="page-6" style="display:none">
+
+    <div class="panel">
+      <div class="panel-header">Resumen del Consentimiento</div>
+      <div class="panel-body" id="resumen-body">
+        <!-- Generado por JS -->
+      </div>
+    </div>
+
+    <div class="panel" id="confirm-final-panel">
+      <div class="panel-header">Confirmación Final</div>
+      <div class="panel-body" id="confirm-final-body">
+        <!-- Generado por JS -->
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px">
+      <button class="btn btn-primary" style="flex:1;min-width:200px" onclick="window.print()">
+        🖨️ Imprimir / Guardar PDF
+      </button>
+      <button class="btn btn-success" style="flex:1;min-width:200px" onclick="finalizarConsentimiento()">
+        ✅ Archivar en Historia Clínica
+      </button>
+    </div>
+
+    <div class="panel" style="border-color:var(--teal)">
+      <div class="panel-body">
+        <p style="font-size:13px;color:var(--gray);line-height:1.6;text-align:justify">
+          <strong>Instrucciones de archivo:</strong> Este documento hace parte integral de la historia clínica del paciente y debe conservarse conforme a la <strong>Resolución 1995 de 1999</strong> (mínimo 20 años para adultos). El original firmado debe digitalizarse y vincularse al registro electrónico del paciente. La información aquí contenida es de carácter <strong>confidencial</strong> y está protegida por la Ley 23 de 1981 y la Ley 1581 de 2012.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       PANTALLA FINAL — COMPLETADO
+  ══════════════════════════════════════════════════════════════════════════ -->
+  <div id="page-done" style="display:none">
+    <div class="panel">
+      <div class="done-screen">
+        <div class="done-icon" id="done-icon">✅</div>
+        <div class="done-title" id="done-title">Consentimiento registrado</div>
+        <div class="done-sub" id="done-sub">El consentimiento informado ha sido completado y está listo para archivar en la historia clínica del paciente.</div>
+        <button class="btn btn-primary" style="max-width:300px;margin:0 auto" onclick="window.print()">
+          🖨️ Imprimir copia
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav" id="bottom-nav">
+  <button class="btn btn-secondary" id="btn-prev" onclick="prevStep()" style="display:none">← Anterior</button>
+  <button class="btn btn-primary" id="btn-next" onclick="nextStep()">Siguiente →</button>
+</div>
+
+<script>
+// ── Estado global ──────────────────────────────────────────────────────────
+let currentStep = 0;
+const totalSteps = 7;
+let decision = null;
+let acadDecision = null;
+const sigCtx = {};
+const sigDrawing = {};
+const sigHasSig = {};
+
+// ── Navegación ─────────────────────────────────────────────────────────────
+function goTo(step) {
+  if (step < 0 || step >= totalSteps) return;
+  document.getElementById('page-' + currentStep).style.display = 'none';
+  document.getElementById('page-' + step).style.display = 'block';
+  currentStep = step;
+  updateNav();
+  updateStepper();
+  window.scrollTo(0, 0);
+  if (step === 5) initCanvases();
+  if (step === 6) buildSummary();
+}
+
+function nextStep() {
+  if (!validateStep(currentStep)) return;
+  if (currentStep === 6) { finalizarConsentimiento(); return; }
+  goTo(currentStep + 1);
+}
+
+function prevStep() { goTo(currentStep - 1); }
+
+function updateNav() {
+  const prev = document.getElementById('btn-prev');
+  const next = document.getElementById('btn-next');
+  const nav  = document.getElementById('bottom-nav');
+  prev.style.display = currentStep > 0 && currentStep < 7 ? 'block' : 'none';
+  nav.style.display  = currentStep === 7 ? 'none' : 'flex';
+  if (currentStep === 6) {
+    next.textContent = 'Finalizar ✓';
+    next.className = 'btn btn-success';
+  } else {
+    next.textContent = 'Siguiente →';
+    next.className = 'btn btn-primary';
+  }
+}
+
+function updateStepper() {
+  document.querySelectorAll('.step-item').forEach((el, i) => {
+    el.classList.remove('active','done');
+    if (i === currentStep) el.classList.add('active');
+    else if (i < currentStep) el.classList.add('done');
+  });
+}
+
+// ── Validación por paso ────────────────────────────────────────────────────
+function validateStep(step) {
+  if (step === 0) return validatePaso0();
+  if (step === 3) return validatePaso3();
+  if (step === 4) return validatePaso4();
+  if (step === 5) return validatePaso5();
+  return true;
+}
+
+function req(id, errId) {
+  const el = document.getElementById(id);
+  const er = document.getElementById(errId);
+  if (!el) return true;
+  const val = el.value.trim();
+  if (!val) {
+    el.classList.add('error');
+    if (er) { er.style.display='block'; }
+    return false;
+  } else {
+    el.classList.remove('error');
+    if (er) { er.style.display='none'; }
+    return true;
+  }
+}
+
+function validatePaso0() {
+  const fields = [
+    ['nombres','err-nombres'],['apellidos','err-apellidos'],
+    ['tipo-id','err-tipo-id'],['num-id','err-num-id'],
+    ['fecha-nac','err-fecha-nac'],['eps','err-eps'],
+    ['fecha-consulta','err-fecha-consulta'],
+  ];
+  let ok = true;
+  fields.forEach(([id,er]) => { if (!req(id,er)) ok = false; });
+  return ok;
+}
+
+function validatePaso3() {
+  const ids = ['ch1','ch2','ch3','ch4','ch5','ch6','ch7','ch8'];
+  const allChecked = ids.every(id => document.getElementById(id).checked);
+  document.getElementById('check-warning').style.display = allChecked ? 'none' : 'block';
+  return allChecked;
+}
+
+function validatePaso4() {
+  const ok = decision !== null;
+  document.getElementById('decision-warning').style.display = ok ? 'none' : 'block';
+  return ok;
+}
+
+function validatePaso5() {
+  if (!sigHasSig['paciente']) {
+    document.getElementById('err-sig-paciente').style.display = 'block';
+    document.getElementById('sig-paciente-wrap').classList.add('error-sig');
+    return false;
+  }
+  document.getElementById('err-sig-paciente').style.display = 'none';
+  document.getElementById('sig-paciente-wrap').classList.remove('error-sig');
+  return true;
+}
+
+// ── Checkboxes comprensión ─────────────────────────────────────────────────
+function updateCheck(id, el) {
+  document.getElementById(id).classList.toggle('checked', el.checked);
+}
+
+// ── Uso académico ──────────────────────────────────────────────────────────
+function setAcad(val) {
+  acadDecision = val;
+  document.getElementById('ro-si').classList.toggle('sel-si', val === 'si');
+  document.getElementById('ro-no').classList.toggle('sel-no', val === 'no');
+}
+
+// ── Decisión ───────────────────────────────────────────────────────────────
+function setDecision(val) {
+  decision = val;
+  document.getElementById('btn-yes').className = 'decision-btn' + (val === 'si' ? ' selected-yes' : '');
+  document.getElementById('btn-no').className  = 'decision-btn' + (val === 'no' ? ' selected-no'  : '');
+  document.getElementById('decision-warning').style.display = 'none';
+  document.getElementById('no-reason-box').style.display = val === 'no' ? 'block' : 'none';
+}
+
+// ── Canvas / Firma ─────────────────────────────────────────────────────────
+function initCanvases() {
+  ['paciente','testigo','rep','medico'].forEach(id => {
+    if (sigCtx[id]) return;
+    const canvas = document.getElementById('sig-' + id);
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    sigCtx[id] = ctx;
+    sigDrawing[id] = false;
+    sigHasSig[id] = false;
+
+    // Ajustar resolución al DPR
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width  = rect.width  * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+    ctx.strokeStyle = '#1B3A6B';
+    ctx.lineWidth = 2.5;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    const getPos = (e) => {
+      const r = canvas.getBoundingClientRect();
+      const src = e.touches ? e.touches[0] : e;
+      return { x: (src.clientX - r.left), y: (src.clientY - r.top) };
+    };
+
+    canvas.addEventListener('mousedown',  e => { sigDrawing[id]=true; const p=getPos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); });
+    canvas.addEventListener('mousemove',  e => { if (!sigDrawing[id]) return; const p=getPos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); markSig(id); });
+    canvas.addEventListener('mouseup',    () => sigDrawing[id]=false);
+    canvas.addEventListener('mouseleave', () => sigDrawing[id]=false);
+
+    canvas.addEventListener('touchstart', e => { e.preventDefault(); sigDrawing[id]=true; const p=getPos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); }, {passive:false});
+    canvas.addEventListener('touchmove',  e => { e.preventDefault(); if (!sigDrawing[id]) return; const p=getPos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); markSig(id); }, {passive:false});
+    canvas.addEventListener('touchend',   () => sigDrawing[id]=false);
+  });
+
+  // Pre-rellenar nombre y fecha
+  const n = (document.getElementById('nombres').value + ' ' + document.getElementById('apellidos').value).trim();
+  document.getElementById('sig-nombre').value = n;
+  const now = new Date();
+  document.getElementById('sig-fecha').value = now.toLocaleDateString('es-CO') + '  ' + now.toLocaleTimeString('es-CO', {hour:'2-digit',minute:'2-digit'});
+}
+
+function markSig(id) {
+  sigHasSig[id] = true;
+  const wrap = document.getElementById('sig-' + id + '-wrap');
+  if (wrap) wrap.classList.add('has-sig');
+}
+
+function clearSig(id) {
+  const canvas = document.getElementById('sig-' + id);
+  if (!canvas || !sigCtx[id]) return;
+  const dpr = window.devicePixelRatio || 1;
+  sigCtx[id].clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+  sigHasSig[id] = false;
+  const wrap = document.getElementById('sig-' + id + '-wrap');
+  if (wrap) wrap.classList.remove('has-sig');
+}
+
+// ── Resumen ────────────────────────────────────────────────────────────────
+function buildSummary() {
+  const n = document.getElementById('nombres').value + ' ' + document.getElementById('apellidos').value;
+  const tid = document.getElementById('tipo-id').value;
+  const nid = document.getElementById('num-id').value;
+  const fn  = document.getElementById('fecha-nac').value;
+  const eps = document.getElementById('eps').value;
+  const fc  = document.getElementById('fecha-consulta').value;
+  const ind = document.getElementById('indicacion').value;
+  const acad = acadDecision === 'si' ? 'Autorizado' : acadDecision === 'no' ? 'No autorizado' : 'No indicado';
+  const motivo = decision === 'no' ? (document.getElementById('motivo-negativa').value || '—') : '—';
+
+  const rb = document.getElementById('resumen-body');
+  rb.innerHTML = `
+    <div class="summary-card">
+      <div class="summary-title">Datos del Paciente</div>
+      <div class="summary-body">
+        <div class="summary-row"><span class="sk">Nombre completo</span><span class="sv">${n}</span></div>
+        <div class="summary-row"><span class="sk">Documento</span><span class="sv">${tid} ${nid}</span></div>
+        <div class="summary-row"><span class="sk">Fecha de nacimiento</span><span class="sv">${fn || '—'}</span></div>
+        <div class="summary-row"><span class="sk">EPS / Aseguradora</span><span class="sv">${eps}</span></div>
+        <div class="summary-row"><span class="sk">Fecha de consulta</span><span class="sv">${fc || '—'}</span></div>
+        <div class="summary-row"><span class="sk">Indicación clínica</span><span class="sv">${ind || '—'}</span></div>
+        <div class="summary-row"><span class="sk">Médico tratante</span><span class="sv">Dr. Mauricio Plata — Urólogo</span></div>
+      </div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-title">Declaraciones del Paciente</div>
+      <div class="summary-body">
+        <div class="summary-row"><span class="sk">Información recibida</span><span class="sv" style="color:var(--teal);font-weight:600">✓ Confirmada (8/8 ítems)</span></div>
+        <div class="summary-row"><span class="sk">Uso datos académicos</span><span class="sv">${acad}</span></div>
+        <div class="summary-row"><span class="sk">Decisión</span><span class="sv" style="color:${decision==='si'?'var(--teal)':'var(--red)'};font-weight:700">${decision==='si'?'✅ CONSENTIMIENTO OTORGADO':'❌ CONSENTIMIENTO NEGADO'}</span></div>
+        ${decision==='no'?`<div class="summary-row"><span class="sk">Motivo negativa</span><span class="sv">${motivo}</span></div>`:''}
+      </div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-title">Firmas capturadas</div>
+      <div class="summary-body">
+        <div class="summary-row"><span class="sk">Firma del paciente</span><span class="sv" style="color:${sigHasSig['paciente']?'var(--teal)':'var(--red)'};">${sigHasSig['paciente']?'✓ Capturada':'✗ Pendiente'}</span></div>
+        <div class="summary-row"><span class="sk">Firma del médico</span><span class="sv" style="color:${sigHasSig['medico']?'var(--teal)':'var(--gray)'};">${sigHasSig['medico']?'✓ Capturada':'— No capturada'}</span></div>
+        <div class="summary-row"><span class="sk">Firma testigo</span><span class="sv" style="color:var(--gray);">${sigHasSig['testigo']?'✓ Capturada':'— No aplica'}</span></div>
+        <div class="summary-row"><span class="sk">Firma rep. legal</span><span class="sv" style="color:var(--gray);">${sigHasSig['rep']?'✓ Capturada':'— No aplica'}</span></div>
+      </div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-title">Marco Legal Aplicado</div>
+      <div class="summary-body" style="padding-top:12px">
+        <span class="legal-tag">Ley 23/1981 arts. 15-16</span>
+        <span class="legal-tag">Res. 13437/1991</span>
+        <span class="legal-tag">Ley 1751/2015 art. 10 lit. e</span>
+        <span class="legal-tag">Ley 1581/2012</span>
+        <span class="legal-tag">Res. 1995/1999</span>
+        <span class="legal-tag">SU-337/99 C.C.</span>
+        <span class="legal-tag">T-401/94 C.C.</span>
+      </div>
+    </div>
+  `;
+
+  const cb = document.getElementById('confirm-final-body');
+  if (decision === 'si') {
+    cb.innerHTML = `
+      <div class="confirm-box yes">
+        <strong>✅ CONSENTIMIENTO INFORMADO OTORGADO</strong><br><br>
+        Yo, <strong>${n}</strong>, identificado(a) con ${tid} N.° ${nid}, en ejercicio de mi autonomía y habiendo recibido información completa y comprensible sobre el tacto rectal diagnóstico, <strong>otorgo mi consentimiento</strong> para la realización de dicho procedimiento por parte del Dr. Mauricio Plata, de manera libre, voluntaria e informada.<br><br>
+        Declaro conocer mi derecho a revocar este consentimiento en cualquier momento antes del inicio del procedimiento, sin consecuencias para mi atención médica.
+      </div>`;
+  } else {
+    cb.innerHTML = `
+      <div class="confirm-box no">
+        <strong>❌ CONSENTIMIENTO INFORMADO NEGADO</strong><br><br>
+        Yo, <strong>${n}</strong>, identificado(a) con ${tid} N.° ${nid}, en ejercicio de mi autonomía y habiendo recibido información completa y comprensible, <strong>niego mi consentimiento</strong> para la realización del tacto rectal diagnóstico. Esta decisión es libre, voluntaria e informada.<br><br>
+        Exonero al Dr. Mauricio Plata y al consultorio de responsabilidad derivada de las consecuencias diagnósticas de no haberse practicado el procedimiento.
+      </div>`;
+  }
+}
+
+// ── Finalizar ──────────────────────────────────────────────────────────────
+function finalizarConsentimiento() {
+  document.getElementById('page-6').style.display = 'none';
+  document.getElementById('page-done').style.display = 'block';
+  document.getElementById('bottom-nav').style.display = 'none';
+  document.querySelectorAll('.step-item').forEach(el => { el.classList.remove('active'); el.classList.add('done'); });
+  if (decision === 'no') {
+    document.getElementById('done-icon').textContent = '📋';
+    document.getElementById('done-title').textContent = 'Negativa registrada';
+    document.getElementById('done-sub').textContent = 'La negativa del paciente ha sido registrada correctamente y está lista para archivar en la historia clínica.';
+  }
+}
+
+// ── Edad automática ─────────────────────────────────────────────────────────
+document.getElementById('fecha-nac').addEventListener('change', function() {
+  const dob = new Date(this.value);
+  if (isNaN(dob)) return;
+  const today = new Date();
+  let age = today.getFullYear() - dob.getFullYear();
+  const m = today.getMonth() - dob.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
+  document.getElementById('edad').value = age + ' años';
+});
+
+// ── Fecha de hoy por defecto ────────────────────────────────────────────────
+document.getElementById('fecha-consulta').value = new Date().toISOString().split('T')[0];
+
+// ── Init ────────────────────────────────────────────────────────────────────
+updateNav();
+updateStepper();
+</script>
+</body>
+</html>
